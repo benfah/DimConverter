@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.benfah.dimconverter.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  	"SessionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

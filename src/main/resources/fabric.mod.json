@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "dimconverter",
+  "version": "${version}",
+
+  "name": "DimensionConverter",
+  "description": "Wacky code to convert 1.15 dimensions into 1.16 ones!",
+  "authors": [
+    "benfah"
+  ],
+
+  "license": "CC0-1.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.benfah.dimconverter.DimConverterMod"
+    ]
+  },
+  "mixins": [
+    "dimconverter.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  }
+}
