@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 public class DimConverter
 {
 
-	private static Map<Identifier, Identifier> dimMap = new HashMap<>();
+	private static final Map<Identifier, Identifier> DIM_MAP = new HashMap<>();
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	private DimConverter()
@@ -25,25 +25,25 @@ public class DimConverter
 
 	public static void registerDimension(Identifier oldDimId, Identifier newDim)
 	{
-		dimMap.put(oldDimId, newDim);
+		DIM_MAP.put(oldDimId, newDim);
 	}
 
 	public static void registerDimension(Identifier dimId)
 	{
-		dimMap.put(dimId, dimId);
+		DIM_MAP.put(dimId, dimId);
 	}
 
 	public static void handleConversion(Path worldFolder)
 	{
-		if (!dimMap.isEmpty())
+		if (!DIM_MAP.isEmpty())
 		{
 			LOGGER.info("Starting dimension conversion...");
 			int totalConverted = 0;
 
-			for (Entry<Identifier, Identifier> entry : dimMap.entrySet())
+			for (Entry<Identifier, Identifier> entry : DIM_MAP.entrySet())
 			{
-				String oldDimName = "DIM_" + entry.getKey().getNamespace() + "_" + entry.getKey().getPath();
-				File oldDimFolder = new File(worldFolder.toFile(), oldDimName);
+				String oldDimName = entry.getKey().getNamespace() + "_" + entry.getKey().getPath();
+				File oldDimFolder = new File(worldFolder.toFile(), "DIM_" + oldDimName);
 
 				if (oldDimFolder.exists() && oldDimFolder.isDirectory())
 				{
@@ -54,6 +54,13 @@ public class DimConverter
 					try
 					{
 						FileUtils.moveDirectory(oldDimFolder, newDimFolder);
+						File raidsFile = new File(newDimFolder, "data/raids" + oldDimFolder);
+
+						if (raidsFile.exists())
+						{
+							raidsFile.renameTo(new File(raidsFile.getParentFile(), "raids.dat"));
+						}
+
 						totalConverted++;
 					} catch (IOException e)
 					{
